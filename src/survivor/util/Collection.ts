@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 
 
 type CollectionCallback<T> = (val: T, key: string) => boolean|void
@@ -8,8 +7,9 @@ export class Collection<T> extends Map<string, T> {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    constructor(iterator?: any) {
-        super(iterator);
+    constructor(iterator?: Iterable<readonly [string, T]>) {
+        if (!iterator) super();
+        else super(iterator);
     } 
  
     set(key: string, value: T) : this {
@@ -77,14 +77,19 @@ export class Collection<T> extends Map<string, T> {
         return this.valArrayCache;
     }
  
-    randomVal(): T
-    randomVal(amount = 1, filter?: (val: T, index: number) => boolean) : T | Array<T> {
-        if (amount === 1) return this.valArray()[Math.floor(Math.random() * this.size)];
+    randomValUnique(amount = 1, filter?: (val: T, index: number) => boolean) : Array<T> {
         let arr = this.valArray();
         if (arr.length === 0 || !amount) return [];
         if (filter) arr = arr.filter(filter);
         else arr = arr.slice();
         return Array.from({ length: amount }, () => arr.splice(Math.floor(Math.random() * arr.length), 1)[0]);
+    }
+
+    randomVal(amount = 1, filter?: (val: T, index: number) => boolean) : Array<T> {
+        let arr = this.valArray();
+        if (arr.length === 0 || !amount) return [];
+        if (filter) arr = arr.filter(filter);
+        return Array.from({length: amount}, () => arr[Math.floor(Math.random() * arr.length)]);
     }
  
     partition(fn: CollectionCallback<T>) : Array<Collection<T>> {

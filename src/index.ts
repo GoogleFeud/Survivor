@@ -9,4 +9,4 @@ col.set("B", 2);
 col.set("C", 3);
 col.set("D", 4);
 
-console.log(col.randomVal(1));
+console.log(col.randomValUnique(1));
