@@ -1,13 +1,15 @@
 
 
-type CollectionCallback<T> = (val: T, key: string) => boolean|void
+export type CollectionCallback<T> = (val: T, key: string) => boolean|void
+
+export type CollectionConstructor<T> = Iterable<readonly [string, T]>;
 
 export class Collection<T> extends Map<string, T> {
     private valArrayCache?: Array<T>
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-    constructor(iterator?: Iterable<readonly [string, T]>) {
+    constructor(iterator?: CollectionConstructor<T>) {
         if (!iterator) super();
         else super(iterator);
     } 
