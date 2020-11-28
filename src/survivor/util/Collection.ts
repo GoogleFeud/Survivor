@@ -4,6 +4,12 @@ export type CollectionCallback<T> = (val: T, key: string) => boolean|void
 
 export type CollectionConstructor<T> = Iterable<readonly [string, T]>;
 
+export interface Collectable {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any,
+    name: string
+}
+
 export class Collection<T> extends Map<string, T> {
     private valArrayCache?: Array<T>
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -107,6 +113,14 @@ export class Collection<T> extends Map<string, T> {
         for (const [key, val] of this) {
             if (fn(val, key)) this.delete(key);
         }
+    }
+
+    static fromArray<V extends Collectable>(arr: Array<V|undefined>) : Collection<V> {
+        const col = new Collection<V>();
+        for (const item of arr) {
+            if (item) col.set(item.name, item);
+        }
+        return col;
     }
  
     clone() : Collection<T> {
