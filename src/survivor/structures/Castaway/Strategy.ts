@@ -23,5 +23,6 @@ export class Strategy {
     }
 
     static _name = "Default";
+    static weight = 1;
 
 }
