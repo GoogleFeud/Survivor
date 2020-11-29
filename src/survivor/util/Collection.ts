@@ -6,9 +6,9 @@ export type CollectionConstructor<T> = Iterable<readonly [string, T]>;
 
 export interface Collectable {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any,
-    name: string
+    [key: string]: any
 }
+
 
 export class Collection<T> extends Map<string, T> {
     private valArrayCache?: Array<T>
@@ -115,10 +115,10 @@ export class Collection<T> extends Map<string, T> {
         }
     }
 
-    static fromArray<V extends Collectable>(arr: Array<V|undefined>) : Collection<V> {
+    static fromArray<V extends Collectable>(arr: Array<V|undefined>, arg = "name") : Collection<V> {
         const col = new Collection<V>();
         for (const item of arr) {
-            if (item) col.set(item.name, item);
+            if (item) col.set(item[arg], item);
         }
         return col;
     }
