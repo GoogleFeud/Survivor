@@ -11,6 +11,7 @@ export class Castaway {
     gender: string
     job: string
     mood: number
+    eliminated = false
     traits: Collection<Trait>
     strategy: Strategy
     constructor(engine: Engine, data: CastawayData) {
@@ -24,7 +25,7 @@ export class Castaway {
         else if (data.traits instanceof Array) this.traits = this.engine.traits.filter(trait => (data.traits as Array<string> || []).includes(trait.name));
         else this.traits = Collection.fromArray(this.engine.traits.randomValUniqueConflicts(Random.btw(this.engine.settings.minTraits, this.engine.settings.maxTraits) as number));
         if (data.strategy) this.strategy = new data.strategy(this);
-        else this.strategy = new (engine.strategies.randomVal()[0])(this);
+        else this.strategy = new (Random.arrWeighted(this.engine.strategies.valArray())[0] || this.engine.strategies.first())(this);
     }
 
 }
