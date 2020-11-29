@@ -57,23 +57,3 @@ game.castaways.add(
 );
 
 console.log(game.castaways.map(c => c.strategy.name));
-
-const rng: Array<StrategyClass|undefined> = [];
-
-for (let i=0; i < 1000; i++) {
-    rng.push(Random.arrWeighted(game.strategies.valArray())[0]);
-}
-
-let one = 0;
-let two = 0;
-let three = 0;
-
-for (const el of rng) {
-    if (el) {
-        if (el._name === "A") one++;
-        else if (el._name === "B") two++;
-        else if (el._name === "C") three++;
-    }
-}
-
-console.log(one, two, three);
