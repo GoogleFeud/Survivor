@@ -5,15 +5,18 @@ import { CastawayCollector } from "./collectors/CastawayCollector";
 import { TribeCollector } from "./collectors/TribeCollector";
 import { AllianceList } from "./collectors/AllianceList";
 import { EventList } from "./collectors/EventList";
+import { Clock } from "./mechanics/Clock";
 
 export interface EngineSettings {
     maxTraits: number,
-    minTraits: number
+    minTraits: number,
+    phaseCountPerEpisode: number
 }
 
 export const DEFAULT_ENGINE_SETTINGS: EngineSettings = {
     maxTraits: 3,
-    minTraits: 0
+    minTraits: 0,
+    phaseCountPerEpisode: 3
 };
 
 export class Engine {
@@ -24,6 +27,7 @@ export class Engine {
     tribes: TribeCollector
     alliances: AllianceList
     events: EventList
+    clock: Clock
     constructor(settings: Partial<EngineSettings> = {}) {
         this.settings = Object.assign(DEFAULT_ENGINE_SETTINGS, settings);
         this.traits = new TraitCollector();
@@ -32,5 +36,8 @@ export class Engine {
         this.tribes = new TribeCollector(this);
         this.alliances = new AllianceList();
         this.events = new EventList();
+        this.clock = new Clock(this);
     }
+
+    
 }

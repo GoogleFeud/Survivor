@@ -78,3 +78,16 @@ game.castaways.add(
 console.log(game.castaways.map(c => c.strategy.name));
 
 game.events.callRandom(game, 10);
+
+game.clock.on("episode", (count: number) => {
+    console.log("Episode: ", count);
+});
+
+game.clock.on("phase", (count: number) => {
+    console.log("Phase: ", count);
+});
+
+
+document.addEventListener("click", () => {
+    game.clock.speedTo(5, 0, {3: 5});
+});

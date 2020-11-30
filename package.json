@@ -36,5 +36,8 @@
     "webpack": "^5.6.0",
     "webpack-cli": "^4.2.0"
   },
-  "homepage": "https://github.com/GoogleFeud/survivor#readme"
+  "homepage": "https://github.com/GoogleFeud/survivor#readme",
+  "dependencies": {
+    "eventemitter3": "^4.0.7"
+  }
 }
