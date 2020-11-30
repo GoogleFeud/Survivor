@@ -53,6 +53,7 @@ export class TraitCollector extends Collection<Trait> {
         });
     }
 
+    
 
 }
 

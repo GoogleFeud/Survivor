@@ -23,6 +23,5 @@ export class AllianceList extends Array<Alliance> {
         return new AllianceList(this.filter(al => al.creator && al.creator.firstName === player.firstName));
     }
 
-    
 
 }

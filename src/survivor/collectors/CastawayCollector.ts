@@ -26,4 +26,6 @@ export class CastawayCollector extends Collection<Castaway> {
         return new CastawayCollector(this.engine, this.filter(pl => !pl.eliminated));
     }
 
+    callStrategy(name: string, ...params: Array<unknown>) : 
+
 }
