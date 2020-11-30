@@ -4,6 +4,7 @@ import { StrategyCollector } from "./collectors/StrategyCollector";
 import { CastawayCollector } from "./collectors/CastawayCollector"; 
 import { TribeCollector } from "./collectors/TribeCollector";
 import { AllianceList } from "./collectors/AllianceList";
+import { EventList } from "./collectors/EventList";
 
 export interface EngineSettings {
     maxTraits: number,
@@ -22,6 +23,7 @@ export class Engine {
     castaways: CastawayCollector
     tribes: TribeCollector
     alliances: AllianceList
+    events: EventList
     constructor(settings: Partial<EngineSettings> = {}) {
         this.settings = Object.assign(DEFAULT_ENGINE_SETTINGS, settings);
         this.traits = new TraitCollector();
@@ -29,5 +31,6 @@ export class Engine {
         this.castaways = new CastawayCollector(this);
         this.tribes = new TribeCollector(this);
         this.alliances = new AllianceList();
+        this.events = new EventList();
     }
 }

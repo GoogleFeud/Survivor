@@ -1,15 +1,34 @@
 
 
-import { start } from "repl";
 import {Engine} from "./survivor/Engine";
 import { Castaway } from "./survivor/structures/Castaway/Castaway";
-import {Strategy, StrategyClass} from "./survivor/structures/Castaway/Strategy";
-import * as Random from "./survivor/util/Random";
+import {Strategy} from "./survivor/structures/Castaway/Strategy";
 
 const game = new Engine({
     minTraits: 0,
     maxTraits: 3
 });
+
+game.events.add(
+    {
+        fn: () => {
+            console.log("First event!");
+        },
+        weight: 10
+    },
+    {
+        fn: () => {
+            console.log("Second event!");
+        },
+        weight: 5
+    },
+    {
+        fn: () => {
+            console.log("Third event!");
+        },
+        weight: 1
+    }
+);
 
 game.traits.add(
     {name: "A", description: ""},
@@ -57,3 +76,5 @@ game.castaways.add(
 );
 
 console.log(game.castaways.map(c => c.strategy.name));
+
+game.events.callRandom(game, 10);
