@@ -26,6 +26,14 @@ export class CastawayCollector extends Collection<Castaway> {
         return new CastawayCollector(this.engine, this.filter(pl => !pl.eliminated));
     }
 
-    callStrategy(name: string, ...params: Array<unknown>) : 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    pipeStrategy(name: string, ...params: Array<unknown>) : Collection<any> {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const res = new Collection<any>();
+        for (const [playerName, player] of this) {
+            res.set(playerName, player.strategy.call(name, ...params));
+        }
+        return res;
+    }
 
 }

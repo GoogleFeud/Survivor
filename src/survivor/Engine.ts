@@ -19,6 +19,8 @@ export const DEFAULT_ENGINE_SETTINGS: EngineSettings = {
     phaseCountPerEpisode: 3
 };
 
+export type Mod = (engine: Engine) => void;
+
 export class Engine {
     settings: EngineSettings
     traits: TraitCollector
@@ -28,6 +30,7 @@ export class Engine {
     alliances: AllianceList
     events: EventList
     clock: Clock
+    mods: Map<string, Mod>
     constructor(settings: Partial<EngineSettings> = {}) {
         this.settings = Object.assign(DEFAULT_ENGINE_SETTINGS, settings);
         this.traits = new TraitCollector();
@@ -37,7 +40,13 @@ export class Engine {
         this.alliances = new AllianceList();
         this.events = new EventList();
         this.clock = new Clock(this);
+        this.mods = new Map();
     }
 
-    
+
+    cleanUp() : void {
+        
+    }
+ 
+
 }

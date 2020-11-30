@@ -70,4 +70,10 @@ export class Clock extends EventEmitter {
         }
     }
 
+    clear() : void {
+        this.phaseCount = this.engine.settings.phaseCountPerEpisode;
+        this.episode = 1;
+        this.phase = 0;
+    }
+
 }

@@ -2,7 +2,8 @@ import { Castaway } from "./Castaway";
 
 export const NO_SUCH_EVENT = Symbol("No such event");
 
-export type StrategyEvent = (...args: Array<unknown>) => unknown
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StrategyEvent = (...args: Array<unknown>) => any
 
 export type StrategyClass = typeof Strategy;
 
@@ -15,7 +16,8 @@ export class Strategy {
         this.events = new Map();
     }
 
-    call(name: string, ...params: Array<unknown>) : unknown {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    call(name: string, ...params: Array<unknown>) : any {
         if (this.events.has(name)) return this.events.get(name)?.(...params);
         // eslint-disable-next-line no-prototype-builtins
         if (typeof this[name] === "function") return (this[name] as StrategyEvent)(...params);

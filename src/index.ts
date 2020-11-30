@@ -91,5 +91,4 @@ game.clock.schedule(() => console.log("Scheduled function at the start of day 3!
 
 document.addEventListener("click", () => {
     game.clock.speedTo(5, 0, {3: 5});
-    console.log(game.clock);
 });
