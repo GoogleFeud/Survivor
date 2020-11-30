@@ -87,7 +87,9 @@ game.clock.on("phase", (count: number) => {
     console.log("Phase: ", count);
 });
 
+game.clock.schedule(() => console.log("Scheduled function at the start of day 3!"), 3, 4);
 
 document.addEventListener("click", () => {
     game.clock.speedTo(5, 0, {3: 5});
+    console.log(game.clock);
 });
