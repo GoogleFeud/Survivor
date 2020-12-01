@@ -4,7 +4,7 @@ export type EventFunction = (engine: Engine) => void;
 export type EventChecker = (engine: Engine) => boolean;
 
 export class Event {
-    name?: string
+    name: string
     description?: string
     fn: EventFunction
     checker?: EventChecker
@@ -20,7 +20,7 @@ export class Event {
 
 
 export interface EventData {
-    name?: string,
+    name: string,
     description?: string,
     fn: EventFunction,
     checker?: EventChecker,

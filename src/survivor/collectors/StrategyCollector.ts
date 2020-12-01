@@ -13,4 +13,8 @@ export class StrategyCollector extends Collection<StrategyClass> {
         for (const strat of strategies) this.set(strat._name, strat);
     } 
 
+    remove(...strategyNames: Array<string>) : void {
+        for (const name of strategyNames) this.delete(name);
+    }
+
 }

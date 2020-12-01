@@ -6,6 +6,7 @@ import { TribeCollector } from "./collectors/TribeCollector";
 import { AllianceList } from "./collectors/AllianceList";
 import { EventList } from "./collectors/EventList";
 import { Clock } from "./mechanics/Clock";
+import { ModLoader } from "./mechanics/ModLoader";
 
 export interface EngineSettings {
     maxTraits: number,
@@ -30,7 +31,7 @@ export class Engine {
     alliances: AllianceList
     events: EventList
     clock: Clock
-    mods: Map<string, Mod>
+    mods: ModLoader
     constructor(settings: Partial<EngineSettings> = {}) {
         this.settings = Object.assign(DEFAULT_ENGINE_SETTINGS, settings);
         this.traits = new TraitCollector();
@@ -40,7 +41,7 @@ export class Engine {
         this.alliances = new AllianceList();
         this.events = new EventList();
         this.clock = new Clock(this);
-        this.mods = new Map();
+        this.mods = new ModLoader(this);
     }
  
 

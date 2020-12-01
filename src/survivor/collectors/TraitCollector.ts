@@ -16,6 +16,10 @@ export class TraitCollector extends Collection<Trait> {
         }
     }
 
+    remove(...traitNames: Array<string>) : void {
+        for (const name of traitNames) this.delete(name);
+    }
+
     randomValUniqueConflicts(amount = 1, filter?: CollectionCallback<Trait>) : Array<Trait|undefined> {
         let col: Collection<Trait>;
         if (!this.size || !amount) return [];

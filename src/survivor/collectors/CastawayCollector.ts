@@ -19,6 +19,10 @@ export class CastawayCollector extends Collection<Castaway> {
         }
     }
 
+    remove(...playerNames: Array<string>) : void {
+        for (const name of playerNames) this.delete(name);
+    }
+
     eliminated() : CastawayCollector {
         return new CastawayCollector(this.engine, this.filter(pl => pl.eliminated));
     }

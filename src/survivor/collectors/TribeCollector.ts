@@ -17,4 +17,9 @@ export class TribeCollector extends Collection<Tribe> {
             else this.set(tribe.name, new Tribe(this.engine, tribe));
         }
     }
+
+    remove(...tribeNames: Array<string>) : void {
+        for (const name of tribeNames) this.delete(name);
+    } 
+    
 }

@@ -16,6 +16,12 @@ export class EventList extends Array<Event> {
         }
     }
 
+    remove(...eventNames: Array<string>) : void {
+        for (const name of eventNames) {
+            this.splice(this.findIndex(e => e.name === name), 1);
+        }
+    }
+
     callRandom(engine: Engine, amount = 1) : void {
         for (const event of Random.arrWeighted(this, amount, (ev) => !ev.checker || ev.checker(engine) === true)) event?.fn(engine);
     }
