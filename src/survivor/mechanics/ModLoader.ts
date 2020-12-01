@@ -1,7 +1,12 @@
 
+
 import { Engine } from "../Engine";
 import { Collection } from "../util/Collection";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as Random from "../util/Random";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as Utils from "../util/Utils";
 
 export interface Mod {
     name: string,
@@ -23,8 +28,10 @@ export class ModLoader extends Collection<Mod> {
         if (typeof script === "string") {
             try {
                 src = eval(script);
+                if (typeof src !== "function") return "Script must return a function";
+                src = src(Utils, Random);
             }catch(err) {
-                return "Mod wasn't parsed correctly.";
+                return "Mod wasn't parsed correctly. " + err;
             }
         }
         if (!src  

@@ -9,7 +9,7 @@ const game = new Engine({
 
 console.log(game.mods.load(
     `
-    ({
+    (() => ({
         name: "Core",
         conflicts: ["cycle"],
 
@@ -20,21 +20,23 @@ console.log(game.mods.load(
             console.log("BAI!");
         }
     })
+    )
 `
 ));
 
 console.log(game.mods.load(
     `
-    ({
+    ((Util, Random) => ({
         name: "Core2",
         conflicts: [],
 
         load: (engine) => {
-            console.log("HAI!");
+            console.log("HAI!", Random.btw(1, 10, 50));
         },
         unload: (engine) => {
             console.log("BAI!");
         }
     })
+    )
 `
 ));
