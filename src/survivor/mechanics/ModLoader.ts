@@ -2,19 +2,12 @@
 import { Engine } from "../Engine";
 import { Collection } from "../util/Collection";
 
-export enum MOD_CONFLICTS {
-    CYCLE,
-    STRATEGIES,
-    TRAITS,
-    CASTAWAYS,
-    EVENTS
-}
 
 export interface Mod {
     name: string,
     load: (engine: Engine) => void,
     unload: (engine: Engine) => void,
-    conflicts: Array<MOD_CONFLICTS>
+    conflicts: Array<string>
 }
 
 export class ModLoader extends Collection<Mod> {
@@ -40,8 +33,8 @@ export class ModLoader extends Collection<Mod> {
                 || typeof rtrn.unload !== "function"
                 || typeof rtrn.name !== "string"
             ) return "Mod is not configured properly.";
-            if (rtrn.conflicts instanceof Array && rtrn.conflicts.includes(MOD_CONFLICTS.CYCLE) && this.some(m => m.conflicts.includes(MOD_CONFLICTS.CYCLE))) {
-                return `Mod has conflicts with ${this.find(m => m.conflicts.includes(MOD_CONFLICTS.CYCLE))?.name}`;
+            if (rtrn.conflicts instanceof Array && rtrn.conflicts.includes("cycle") && this.some(m => m.conflicts.includes("cycle"))) {
+                return `Mod has conflicts with ${this.find(m => m.conflicts.includes("cycle"))?.name}`;
             }
             this.set(rtrn.name, rtrn);
             rtrn.load(this.engine);
