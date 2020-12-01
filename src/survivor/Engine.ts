@@ -42,11 +42,6 @@ export class Engine {
         this.clock = new Clock(this);
         this.mods = new Map();
     }
-
-
-    cleanUp() : void {
-        
-    }
  
 
 }

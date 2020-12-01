@@ -4,6 +4,7 @@ import { Collection } from "../../util/Collection";
 import * as Random from "../../util/Random";
 import { Strategy, StrategyClass } from "./Strategy";
 import { Tribe } from "../Tribe";
+import { MemoryCollector } from "../../collectors/MemoryCollector";
 
 export class Castaway {
     engine: Engine
@@ -16,6 +17,7 @@ export class Castaway {
     traits: Collection<Trait>
     strategy: Strategy
     tribe?: Tribe
+    memory: MemoryCollector
     constructor(engine: Engine, data: CastawayData) {
         this.engine = engine;
         this.firstName = data.firstName;
@@ -32,6 +34,8 @@ export class Castaway {
 
         if (data.tribe instanceof Tribe) this.tribe = data.tribe;
         else if (typeof data.tribe === "string") this.tribe = engine.tribes.get(data.tribe);
+
+        this.memory = new MemoryCollector(this);
     }
 
 }

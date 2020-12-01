@@ -80,15 +80,18 @@ console.log(game.castaways.map(c => c.strategy.name));
 game.events.callRandom(game, 10);
 
 game.clock.on("episode", (count: number) => {
+    if (count === 1) game.castaways.addMemory({expiresAt: [3, 1], name: "someMem", stacks: true, moodBoost: 2});
+    if (count === 2) game.castaways.addMemory({expiresAt: [4, 3], name: "otherMem", stacks: true, moodBoost: -4});
     console.log("Episode: ", count);
 });
 
 game.clock.on("phase", (count: number) => {
     console.log("Phase: ", count);
+    console.log(game.castaways.map(c => c.mood));
 });
 
-game.clock.schedule(() => console.log("Scheduled function at the start of day 3!"), 3, 4);
+//game.clock.schedule(() => console.log("Scheduled function at the start of day 3!"), 3, 4);
 
 document.addEventListener("click", () => {
-    game.clock.speedTo(5, 0, {3: 5});
+    game.clock.speedTo(5, 1, {3: 5});
 });
