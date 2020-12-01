@@ -18,32 +18,30 @@ export class ModLoader extends Collection<Mod> {
     }
 
     load(script: string|Mod) : string|null {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let src: any = script;
         if (typeof script === "string") {
-            let rtrn;
             try {
-                rtrn = eval(script);
+                src = eval(script);
             }catch(err) {
                 return "Mod wasn't parsed correctly.";
             }
-            if (!rtrn  
-                || !rtrn.load 
-                || !rtrn.unload 
-                || !rtrn.name
-                || typeof rtrn.load !== "function"
-                || typeof rtrn.unload !== "function"
-                || typeof rtrn.name !== "string"
-            ) return "Mod is not configured properly.";
-            if (rtrn.conflicts instanceof Array && rtrn.conflicts.includes("cycle") && this.some(m => m.conflicts.includes("cycle"))) {
-                return `Mod has conflicts with ${this.find(m => m.conflicts.includes("cycle"))?.name}`;
-            }
-            this.set(rtrn.name, rtrn);
-            rtrn.load(this.engine);
-            return null;
-        } else {
-            this.set(script.name, script);
-            script.load(this.engine);
-            return null;
         }
+        if (!src  
+                || !src.load 
+                || !src.unload 
+                || !src.name
+                || typeof src.load !== "function"
+                || typeof src.unload !== "function"
+                || typeof src.name !== "string"
+        ) return "Mod is not configured properly.";
+        if (this.has(src.name)) return "Mod with the same name is already loaded.";
+        if (src.conflicts instanceof Array && src.conflicts.includes("cycle") && this.some(m => m.conflicts.includes("cycle"))) {
+            return `Mod has conflicts with ${this.find(m => m.conflicts.includes("cycle"))?.name}`;
+        }
+        this.set(src.name, src);
+        src.load(this.engine);
+        return null;
     }
 
     unload(name: string) : void {
