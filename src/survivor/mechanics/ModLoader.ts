@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 import { Engine } from "../Engine";
@@ -8,11 +9,17 @@ import * as Random from "../util/Random";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as Utils from "../util/Utils";
 
+
+export interface ModSettings {
+    [key: string]: any
+}
+
 export interface Mod {
     name: string,
-    load: (engine: Engine) => void,
-    unload: (engine: Engine) => void,
-    conflicts: Array<string>
+    load: (engine: Engine, settings: ModSettings) => void,
+    unload: (engine: Engine, settings: ModSettings) => void,
+    conflicts: Array<string>,
+    settings: ModSettings
 }
 
 export class ModLoader extends Collection<Mod> {
@@ -23,7 +30,6 @@ export class ModLoader extends Collection<Mod> {
     }
 
     load(script: string|Mod) : string|null {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let src: any = script;
         if (typeof script === "string") {
             try {
@@ -46,15 +52,23 @@ export class ModLoader extends Collection<Mod> {
         if (src.conflicts instanceof Array && src.conflicts.includes("cycle") && this.some(m => m.conflicts.includes("cycle"))) {
             return `Mod has conflicts with ${this.find(m => m.conflicts.includes("cycle"))?.name}`;
         }
+        if (!src.settings) src.settings = {};
         this.set(src.name, src);
-        src.load(this.engine);
+        src.load(this.engine, src.settings);
         return null;
     }
 
     unload(name: string) : void {
         const mod = this.get(name);
         if (!mod) return;
-        mod.unload(this.engine);
+        mod.unload(this.engine, mod.settings);
+    }
+
+    reload(name: string) : void {
+        const mod = this.get(name);
+        if (!mod) return;
+        mod.unload(this.engine, mod.settings);
+        mod.load(this.engine, mod.settings);
     }
 
 }
