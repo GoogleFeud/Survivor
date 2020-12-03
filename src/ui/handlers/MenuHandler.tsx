@@ -1,11 +1,13 @@
 
 import React from "react";
 import {Container, Row} from "react-bootstrap";
+import { Engine } from "../../survivor/Engine";
 import {Menu, MenuProps} from "../components/Menu/Menu";
 
 
 export interface MenuHandlerProps {
     menus: Array<MenuProps>
+    engine: Engine
 }
 
 export interface MenuHandlerState {
@@ -23,7 +25,7 @@ export class MenuHandler extends React.Component<MenuHandlerProps, MenuHandlerSt
             <Container className="menu" fluid>
                 <Row>
                     {this.props.menus.length && this.props.menus.map((m, i) => 
-                        <Menu {...m} key={i} onClick={this.onClick.bind(this)} active={this.state.active === m.displayName}></Menu>
+                        <Menu {...m} key={i} onClick={this.onClick.bind(this)} active={this.state.active === m.displayName} engine={this.props.engine}></Menu>
                     )}
                 </Row>
             </Container>
