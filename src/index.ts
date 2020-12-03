@@ -44,4 +44,4 @@ console.log(game.mods.load(
 ));
 
 
-ReactDOM.render(React.createElement(Main), document.getElementById("main"));
+ReactDOM.render(React.createElement(Main, {engine: game}), document.getElementById("main"));
