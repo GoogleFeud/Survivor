@@ -1,4 +1,22 @@
 
-body {
-    background-color: red;
+
+.menu {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+.menu-item {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 5px 5px 5px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    text-align: center;
+}
+
+.menu-item:hover {
+    cursor: pointer;
 }

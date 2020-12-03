@@ -1,5 +1,7 @@
 
-
+import React from "react";
+import ReactDOM from "react-dom";
+import {Main} from "./ui/index";
 import {Engine} from "./survivor/Engine";
 
 const game = new Engine({
@@ -40,3 +42,6 @@ console.log(game.mods.load(
     )
 `
 ));
+
+
+ReactDOM.render(React.createElement(Main), document.getElementById("main"));
