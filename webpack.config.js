@@ -14,6 +14,9 @@ module.exports = {
         }, ]
     },
     resolve: {
+        alias: {
+            "jquery": path.join(__dirname, "./fake-jquery.js")
+        },
         extensions: [".tsx", ".ts", ".js"],
     },
     output: {

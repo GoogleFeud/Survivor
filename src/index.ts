@@ -14,9 +14,14 @@ console.log(game.mods.load(
     (() => ({
         name: "Core",
         conflicts: ["cycle"],
+        settings: {
+            name: {type: "string", default: "Test!"},
+            number: {type: "number", default: "5", from: 1, to: 100},
+            dropdown: {type: "slider", from: 1, to: 10},
+        },
 
-        load: (engine) => {
-            console.log("HAI!");
+        load: (engine, settings) => {
+            console.log("HAI!", settings);
         },
         unload: (engine) => {
             console.log("BAI!");

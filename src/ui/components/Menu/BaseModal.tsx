@@ -9,6 +9,7 @@ export interface BaseModalState {
 export interface BaseModalProps {
     engine: Engine
     onHide: () => void
+    onClose?: () => void
     title?: string
 }
 
@@ -23,11 +24,12 @@ export class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
     handleClose() : void {
         this.setState({show: false});
         this.props.onHide();
+        this.props.onClose?.();
     }
 
     render() : React.ReactElement {
         return(
-            <Modal show={this.state.show} onHide={this.handleClose.bind(this)} backdrop={false} centered>
+            <Modal show={this.state.show} onHide={this.handleClose.bind(this)} backdrop={false} scrollable={true} centered>
                 <Modal.Header closeButton>
                     <Modal.Title>{this.props.title || ""}</Modal.Title>
                 </Modal.Header>

@@ -20,8 +20,6 @@ export const DEFAULT_ENGINE_SETTINGS: EngineSettings = {
     phaseCountPerEpisode: 3
 };
 
-export type Mod = (engine: Engine) => void;
-
 export class Engine {
     settings: EngineSettings
     traits: TraitCollector

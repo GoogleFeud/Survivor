@@ -3,7 +3,7 @@ import React from "react";
 import {MenuHandler} from "./handlers/MenuHandler";
 import {MenuProps} from "./components/Menu/Menu";
 import { Engine } from "../survivor/Engine";
-import {Settings} from "./components/Menu/Modals/Settings";
+import {Settings} from "./components/Menu/Modals/Settings/Settings";
 
 export interface MainState {
     menus: Array<MenuProps>
