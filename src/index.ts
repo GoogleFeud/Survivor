@@ -15,9 +15,11 @@ console.log(game.mods.load(
         name: "Core",
         conflicts: ["cycle"],
         settings: {
-            name: {type: "string", default: "Test!"},
-            number: {type: "number", default: "5", from: 1, to: 100},
-            dropdown: {type: "slider", from: 1, to: 10},
+            name: {type: "string", default: "Test!", friendlyName: "AI Name:"},
+            number: {type: "number", default: 5, from: 1, to: 100, friendlyName: "Magic Number:"},
+            dropdown: {type: "slider", from: 1, to: 10, friendlyName: "Random range:", category: "Category 2"},
+            dropdown2: {type: "slider", from: 1, to: 1000, friendlyName: "Random range 2:", category: "Category 2"},
+            dropdown3: {type: "slider", from: 1, to: 100000, friendlyName: "Random range 3:", category: "Category 3"},
         },
 
         load: (engine, settings) => {

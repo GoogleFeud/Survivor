@@ -21,6 +21,7 @@ export interface ModSetting {
     items?: Array<string>,
     match?: RegExp,
     default?: any,
+    friendlyName?: string,
     category: string
 }
 

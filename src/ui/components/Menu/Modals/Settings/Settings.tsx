@@ -1,7 +1,6 @@
 
 import React from "react";
-import {Tab, Tabs, Dropdown} from "react-bootstrap";
-import Slider from "react-bootstrap-slider";
+import {Tab, Tabs, Dropdown, Row, Col} from "react-bootstrap";
 import { Mod, ModSetting} from "../../../../../survivor/mechanics/ModLoader";
 import {BaseModal, BaseModalProps} from "../../BaseModal";
 
@@ -21,7 +20,6 @@ export class Settings extends React.Component<BaseModalProps> {
     render() : React.ReactElement {
         return(
             <BaseModal {...this.props} title="Settings" onClose={() => {
-                console.log("Modal closed. boop.");
                 for (const mod of this.changedMods) {
                     this.props.engine.mods.reload(mod);
                 }
@@ -34,7 +32,8 @@ export class Settings extends React.Component<BaseModalProps> {
         );
     }
 
-    makeModElement(mod: Mod) : React.ReactElement {
+    makeModElement(mod: Mod) : React.ReactElement|null {
+        if (!Object.keys(mod.settings).length) return null;
         const categories: CategoryCollector = {};
         for (const settingName in mod.settings) {
             const settingValue = mod.settings[settingName] as ModSetting;
@@ -45,13 +44,15 @@ export class Settings extends React.Component<BaseModalProps> {
         const mappedCategories = [];
         for (const categoryName in categories) {
             const categoryValue = categories[categoryName];
-            mappedCategories.push(<div>
+            mappedCategories.push(<Col>
                 <h4>{categoryName}</h4>
                 {...categoryValue}
-            </div>);
+            </Col>);
         }
         return <Tab eventKey={mod.name} title={mod.name}>
-                {...mappedCategories}
+            <Row>
+            {...mappedCategories}
+            </Row>
         </Tab>;
     }
 
@@ -59,7 +60,7 @@ export class Settings extends React.Component<BaseModalProps> {
         switch(setting.type) {
         case "string":
             return <div>
-                <p>{name}</p>
+                <p>{setting.friendlyName || name}</p>
                 <input type="text" defaultValue={mod.currentSettings[name]} onChange={(el) => {
                     if (!el.target) return;
                     const text = el.target.value;
@@ -71,7 +72,7 @@ export class Settings extends React.Component<BaseModalProps> {
             </div>;
         case "number":
             return <div>
-                <p>{name}</p>
+                <p>{setting.friendlyName || name}</p>
                 <input type="number" defaultValue={mod.currentSettings[name]} onChange={(el) => {
                     if (!el.target) return;
                     const num = Number(el.target.value);
@@ -84,7 +85,7 @@ export class Settings extends React.Component<BaseModalProps> {
             </div>;
         case "dropdown":
             return <div>
-                <p>{name}</p>
+                <p>{setting.friendlyName || name}</p>
                 <Dropdown defaultValue={mod.currentSettings[name]} onSelect={(key, el) => {
                     if (!el.target) return;
                     mod.currentSettings[name] = (el.target as HTMLSelectElement).value;
@@ -97,9 +98,10 @@ export class Settings extends React.Component<BaseModalProps> {
             </div>;
         case "slider":
             return <div>
-                <p>{name}</p>
-                <Slider value={mod.currentSettings[name]} min={setting.from || 1} max={setting.to || 100} slideStop={(num: number) => {
-                    mod.currentSettings[name] = num;
+                <p>{setting.friendlyName || name}</p>
+                <input type="range" defaultValue={mod.currentSettings[name]} min={setting.from || 1} max={setting.to || 100} onChange={(el) => {
+                    if (!el.target) return;
+                    mod.currentSettings[name] = Number(el.target.value);
                     this.changedMods.add(mod.name);
                 }}/>
             </div>;
