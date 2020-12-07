@@ -22,6 +22,7 @@ export interface ModSetting {
     match?: RegExp,
     default?: any,
     friendlyName?: string,
+    details?: string,
     category: string
 }
 

@@ -15,7 +15,7 @@ console.log(game.mods.load(
         name: "Core",
         conflicts: ["cycle"],
         settings: {
-            name: {type: "string", default: "Test!", friendlyName: "AI Name:"},
+            name: {type: "string", default: "Test!", friendlyName: "AI Name:", details: "Choose a name for the AI!"},
             number: {type: "number", default: 5, from: 1, to: 100, friendlyName: "Magic Number:"},
             dropdown: {type: "slider", from: 1, to: 10, friendlyName: "Random range:", category: "Category 2"},
             dropdown2: {type: "slider", from: 1, to: 1000, friendlyName: "Random range 2:", category: "Category 2"},
@@ -36,8 +36,17 @@ console.log(game.mods.load(
 console.log(game.mods.load(
     `
     ((Util, Random) => ({
-        name: "Core2",
+        name: "More strats",
         conflicts: [],
+        settings: {
+            amountOfStrats: {
+                type: "slider",
+                from: 1,
+                to: 25,
+                friendlyName: "Amount of strategies:",
+                details: "The strategies to add to the core game."
+            }
+        },
 
         load: (engine) => {
             console.log("HAI!", Random.btw(1, 10, 50));

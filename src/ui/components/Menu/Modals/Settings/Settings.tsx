@@ -1,14 +1,9 @@
 
 import React from "react";
-import {Tab, Tabs, Dropdown, Row, Col} from "react-bootstrap";
+import {Tab, Tabs, Row, Col} from "react-bootstrap";
 import { Mod, ModSetting} from "../../../../../survivor/mechanics/ModLoader";
 import {BaseModal, BaseModalProps} from "../../BaseModal";
-
-export const cachedModSettings = new Map<string, React.ReactElement>();
-
-interface CategoryCollector {
-    [key: string]: Array<React.ReactElement>
-}
+import { Tooltip } from "../../../General/Tooltip";
 
 export class Settings extends React.Component<BaseModalProps> {
     changedMods: Set<string>
@@ -34,7 +29,7 @@ export class Settings extends React.Component<BaseModalProps> {
 
     makeModElement(mod: Mod) : React.ReactElement|null {
         if (!Object.keys(mod.settings).length) return null;
-        const categories: CategoryCollector = {};
+        const categories: Record<string, Array<React.ReactElement>> = {};
         for (const settingName in mod.settings) {
             const settingValue = mod.settings[settingName] as ModSetting;
             if (!settingValue) continue;
@@ -60,7 +55,7 @@ export class Settings extends React.Component<BaseModalProps> {
         switch(setting.type) {
         case "string":
             return <div>
-                <p>{setting.friendlyName || name}</p>
+                {setting.details ? <Tooltip title={name} description={setting.details}>{setting.friendlyName || name}</Tooltip>:<p>{setting.friendlyName || name}</p>}
                 <input type="text" defaultValue={mod.currentSettings[name]} onChange={(el) => {
                     if (!el.target) return;
                     const text = el.target.value;
@@ -72,7 +67,7 @@ export class Settings extends React.Component<BaseModalProps> {
             </div>;
         case "number":
             return <div>
-                <p>{setting.friendlyName || name}</p>
+                {setting.details ? <Tooltip title={name} description={setting.details}>{setting.friendlyName || name}</Tooltip>:<p>{setting.friendlyName || name}</p>}
                 <input type="number" defaultValue={mod.currentSettings[name]} onChange={(el) => {
                     if (!el.target) return;
                     const num = Number(el.target.value);
@@ -83,23 +78,10 @@ export class Settings extends React.Component<BaseModalProps> {
                     this.changedMods.add(mod.name);
                 }}></input>
             </div>;
-        case "dropdown":
-            return <div>
-                <p>{setting.friendlyName || name}</p>
-                <Dropdown defaultValue={mod.currentSettings[name]} onSelect={(key, el) => {
-                    if (!el.target) return;
-                    mod.currentSettings[name] = (el.target as HTMLSelectElement).value;
-                    this.changedMods.add(mod.name);
-                }}>
-                    <Dropdown.Menu>
-                        {setting.items && setting.items.map((item, i) => <Dropdown.Item key={i}>{item}</Dropdown.Item>)}
-                    </Dropdown.Menu>
-                </Dropdown>
-            </div>;
         case "slider":
             return <div>
-                <p>{setting.friendlyName || name}</p>
-                <input type="range" defaultValue={mod.currentSettings[name]} min={setting.from || 1} max={setting.to || 100} onChange={(el) => {
+                {setting.details ? <Tooltip title={name} description={setting.details}>{setting.friendlyName || name}</Tooltip>:<p>{setting.friendlyName || name}</p>}
+                <input type="range" style={{display: "block"}} defaultValue={mod.currentSettings[name]} min={setting.from || 1} max={setting.to || 100} onChange={(el) => {
                     if (!el.target) return;
                     mod.currentSettings[name] = Number(el.target.value);
                     this.changedMods.add(mod.name);
